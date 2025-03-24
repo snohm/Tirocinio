@@ -9,7 +9,7 @@ def get_id_ent(row):
         cursor.execute("SELECT id FROM entities WHERE name = %s", (ent,))
         id = cursor.fetchone()
         assert id
-        id_lst.append(id)[0]
+        id_lst.append(id[0])
     return id_lst
 
 conn, cursor = utils.dbConn(dotenv_path="dbconn.env", search_path="agroann")
