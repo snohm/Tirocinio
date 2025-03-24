@@ -11,7 +11,7 @@ try:
             entries = rispy.load(f)
             for art in entries:
                 if 'abstract' in art:
-                    cursor.execute("INSERT INTO articles (doi, title, abstract, url) VALUES (%s, %s, %s, %s)", (art['doi'], art['title'], art['abstract'], art['urls']))
+                    cursor.execute("INSERT INTO articles (doi, title, abstract, url) VALUES (%s, %s, %s, %s)", (art.get('doi'), art.get('title'), art.get('abstract'), art.get('urls')))
 
     conn.commit()
     print("Dati inseriti correttamente!")
