@@ -1,8 +1,11 @@
-import utils
 import os
+import sys
 import rispy
 
-conn, cursor = utils.dbConn(dotenv_path="dbconn.env", search_path="agroann")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils.utils import dbConn
+
+conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
 for file in os.listdir('data/articles'):
     file = os.path.join('data/articles', file)

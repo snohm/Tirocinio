@@ -1,22 +1,16 @@
-import utils
 import json
+import os
+import sys
 
-def get_id_ent(ent):
-    id_lst = []
-    ent = [e.strip().lower() for e in ent]
-    for e in ent:
-        cursor.execute("SELECT id FROM entities WHERE name = %s", (e,))
-        id = cursor.fetchone()
-        assert id
-        id_lst.append(id[0])
-    return id_lst
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils.utils import dbConn, get_ent_ids
 
-conn, cursor = utils.dbConn(dotenv_path="dbconn.env", search_path="agroann")
+conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
 with open('data/entities/mapping/art2ent.json', 'r', encoding='utf-8') as f:
     entries = json.load(f)
     for id_art, ent_lst in entries.items():
-        id_lst = get_id_ent(ent_lst)
+        id_lst = get_ent_ids(ent_lst)
         for id_ent in id_lst:
             cursor.execute("INSERT INTO mapping (id_articles, id_entities) VALUES (%s, %s)", (id_art, id_ent))
 

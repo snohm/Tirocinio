@@ -1,8 +1,11 @@
 import csv
-import utils
 import os
+import sys
 
-conn, cursor = utils.dbConn(dotenv_path="dbconn.env", search_path="agroann")
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils.utils import dbConn
+
+conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
 for file in os.listdir('data/entities/type_of'):
     file = os.path.join('data/entities/type_of', file)

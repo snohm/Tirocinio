@@ -1,7 +1,10 @@
 from collections import defaultdict
 import csv
-import utils
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+from utils.utils import dbConn
 
 def insert_entities(ent):
     id_lst = []
@@ -18,7 +21,7 @@ def insert_entities(ent):
     return id_lst
 
 
-conn, cursor = utils.dbConn(dotenv_path="dbconn.env", search_path="agroann")
+conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
 id_pairs = defaultdict(bool)
 for file in os.listdir('data/entities/same_as'):
