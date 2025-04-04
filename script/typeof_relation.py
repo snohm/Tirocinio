@@ -1,6 +1,7 @@
 import csv
 import os
 import sys
+from tqdm import tqdm
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.utils import dbConn
@@ -8,11 +9,12 @@ from utils.utils import dbConn
 conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
 for file in os.listdir('data/entities/type_of'):
+    tqdm.write(f"\tProcessing: {file}")
     file = os.path.join('data/entities/type_of', file)
     with open(file, mode='r', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter=';')
         next(reader)
-        for row in reader:
+        for row in tqdm(reader):
             row = [e.strip().lower() for e in row]
             parent_id = None
             for ent in row:

@@ -2,6 +2,7 @@ from collections import defaultdict
 import csv
 import os
 import sys
+from tqdm import tqdm 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils.utils import dbConn
@@ -25,11 +26,12 @@ conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
 id_pairs = defaultdict(bool)
 for file in os.listdir('data/entities/same_as'):
+    tqdm.write(f"\tProcessing: {file}")
     file = os.path.join('data/entities/same_as', file)
     with open(file, mode='r', encoding='utf-8') as f:
         reader = csv.reader(f, delimiter=';')
         next(reader)
-        for row in reader:
+        for row in tqdm(reader):
             if not row: break
             id_lst = insert_entities(row)
             for id in id_lst:

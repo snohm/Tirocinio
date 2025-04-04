@@ -12,7 +12,7 @@ try:
     for script in scripts:
         script_path = os.path.join('script/', script)
         print(f"Eseguendo: {script_path}")
-        subprocess.run([sys.executable, script_path], check=True, text=True, capture_output=True)
+        subprocess.run([sys.executable, script_path], check=True)
         
 except subprocess.CalledProcessError as e:
     print("Errore durante l'esecuzione:", e.stderr)
