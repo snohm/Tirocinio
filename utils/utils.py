@@ -25,4 +25,6 @@ def get_ent_ids(ent: list[str]):
        id = cursor.fetchone()
        assert id
        id_lst.append(id[0])
+   conn.close()
+   cursor.close()
    return id_lst
