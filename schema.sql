@@ -24,3 +24,37 @@ CREATE TABLE mapping(
     primary key (id_articles, id_entities)
 );
 ALTER SEQUENCE articles_id_seq MINVALUE 0 RESTART WITH 0;
+
+CREATE FUNCTION get_type_of(ent varchar)
+RETURNS TABLE( name varchar, id int) AS $$
+BEGIN
+    RETURN QUERY
+    WITH RECURSIVE type_of AS (
+    SELECT e.name, e.id
+    FROM entities e
+    WHERE e.name = ent
+    
+    UNION ALL
+
+    SELECT e.name, e.id
+    FROM relationship r
+    JOIN entities e ON e.id = r.id1
+    JOIN type_of t ON t.id = r.id2
+    WHERE r.type = 'type_of'
+    )
+
+    SELECT * FROM type_of;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FUNCTION get_same_as(ent varchar)
+RETURNS TABLE(name varchar, id int) AS $$
+BEGIN
+    RETURN QUERY
+    select   e2.name, e2.id
+    from entities e
+    join relationship r on r.id1 = e.id
+    join entities e2 on e2.id = r.id2
+    where e.name = ent;
+END;
+$$ LANGUAGE plpgsql;
