@@ -5,7 +5,7 @@ import sys
 from tqdm import tqdm 
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils.utils import dbConn
+from utils.dbConn import dbConn
 
 def insert_entities(ent):
     id_lst = []

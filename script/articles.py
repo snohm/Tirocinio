@@ -4,7 +4,7 @@ import rispy
 from tqdm import tqdm
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from utils.utils import dbConn
+from utils.dbConn import dbConn
 
 conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
 
