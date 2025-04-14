@@ -1,6 +1,5 @@
-from flask import Flask, request, jsonify, Response
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-import json
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
@@ -23,7 +22,7 @@ def index():
     art_info = get_art_info(cursor, list(art2ent.keys()))
     conn.close()
     cursor.close()
-    return Response(json.dumps({"art2ent": art2ent, "art_info": art_info}), mimetype="application/json"), 200
+    return jsonify({"display_order": list(art2ent.keys()),"art2ent": art2ent, "art_info": art_info}), 200
 
 if __name__ == "__main__":
     app.run(debug=True)
