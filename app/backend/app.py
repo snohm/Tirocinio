@@ -9,6 +9,17 @@ from utils.dbConn import dbConn
 app = Flask(__name__)
 CORS(app)
 
+@app.get("/api/ent")
+def ent():
+    conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
+    param = list(request.args.to_dict().keys())
+    if not param: param = ['']
+    cursor.execute("SELECT name FROM entities WHERE name ILIKE %s ORDER BY name ", ('%'+ param[0] + '%',))
+    ent = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    return jsonify([e[0] for e in ent]), 200
+
 @app.get("/")
 def index():
     conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
