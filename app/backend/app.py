@@ -20,7 +20,7 @@ def ent():
     cursor.close()
     return jsonify([e[0] for e in ent]), 200
 
-@app.get("/")
+@app.get("/api/art")
 def index():
     conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
     param = list(request.args.to_dict().keys())
