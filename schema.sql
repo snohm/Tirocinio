@@ -55,6 +55,6 @@ BEGIN
     from entities e
     join relationship r on r.id1 = e.id
     join entities e2 on e2.id = r.id2
-    where e.name = ent;
+    where r.type = 'same_as' AND e.name = ent;
 END;
 $$ LANGUAGE plpgsql;
