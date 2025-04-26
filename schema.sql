@@ -38,8 +38,8 @@ BEGIN
 
     SELECT e.name, e.id
     FROM relationship r
-    JOIN entities e ON e.id = r.id1
-    JOIN type_of t ON t.id = r.id2
+    JOIN entities e ON e.id = r.id2
+    JOIN type_of t ON t.id = r.id1
     WHERE r.type = 'type_of'
     )
 
