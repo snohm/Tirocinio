@@ -1,5 +1,6 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
+import { useState, useEffect } from 'react';
 
 const customStyles = {
     headCells: {
@@ -16,9 +17,28 @@ const customStyles = {
         },
     },
 };
-
+const columns = [
+    { name: 'Title', 
+        selector: row => row.title,
+        wrap: true },
+    { name: 'Link',
+        selector: row => row.url,
+        cell: row => <a href={row.url} target="_blank" rel="noreferrer noopener">Go to</a>,
+        width: '70px'
+    },
+    { name: 
+        'Entities', selector: row => row.entities,
+        wrap: true,
+        hide:'sm'
+    }
+];
 
 function ArticleDisplay({ data }) {
+    const [resetPagination, setResetPagination] = useState(false);
+    useEffect(() => {
+        setResetPagination(prev => !prev);
+    }, [data]);
+
     if (Object.keys(data).length === 0) {
         return;
     }
@@ -35,22 +55,6 @@ function ArticleDisplay({ data }) {
             entities: ents.join(', ')
         };
     });
-
-    const columns = [
-        { name: 'Title', 
-            selector: row => row.title,
-            wrap: true },
-        { name: 'Link',
-            selector: row => row.url,
-            cell: row => <a href={row.url} target="_blank">Go to</a>,
-            width: '70px'
-        },
-        { name: 
-            'Entities', selector: row => row.entities,
-            wrap: true,
-            hide:'sm'
-        }
-    ];
 
     const ExpandableComponent = ({ data }) => (
         <div style={{ padding: '1rem', background: '#f9f9f9' }}>
@@ -76,6 +80,7 @@ function ArticleDisplay({ data }) {
             highlightOnHover
             striped
             expandOnRowClicked
+            paginationResetDefaultPage={resetPagination}
         />
     );
 }
