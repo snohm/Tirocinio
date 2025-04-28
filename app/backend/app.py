@@ -12,9 +12,9 @@ CORS(app)
 @app.get("/api/ent")
 def ent():
     conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
-    param = list(request.args.to_dict().keys())
-    if not param: param = ['']
-    cursor.execute("SELECT name FROM entities WHERE name ILIKE %s ORDER BY name ", ('%'+ param[0] + '%',))
+    param = request.args.get('ent_name')
+    if not param: param = ''
+    cursor.execute("SELECT name FROM entities WHERE name ILIKE %s ORDER BY name ", ('%'+ param + '%',))
     ent = cursor.fetchall()
     conn.close()
     cursor.close()

@@ -5,7 +5,7 @@ async function loadOptions(inputValue){
     if (inputValue.length < 2) return [];
 
     try {
-      const res = await fetch(`http://localhost:5000/api/ent?${(inputValue)}`);
+      const res = await fetch(`http://localhost:5000/api/ent?ent_name=${encodeURIComponent(inputValue)}`);
       const data = await res.json();
       return data.map((item) => ({
         label: item,
