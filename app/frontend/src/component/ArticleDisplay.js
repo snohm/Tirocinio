@@ -1,6 +1,7 @@
 import React from 'react';
 import DataTable from 'react-data-table-component';
 import { useState, useEffect } from 'react';
+import './css/table.css';
 
 const customStyles = {
     headCells: {
@@ -25,16 +26,20 @@ const customStyles = {
 const columns = [
     { name: 'Title', 
         selector: row => row.title,
-        wrap: true },
-    { name: 'Link',
-        selector: row => row.url,
-        cell: row => <a href={row.url} target="_blank" rel="noreferrer noopener">Go to</a>,
-        width: '70px'
+        wrap: true 
+    },
+    { name: 'Links',
+        cell: row => 
+        <>
+            <a href={row.url} target="_blank" rel="noreferrer noopener">Scopus</a>  
+            <a href={gsLink(row.title)} target="_blank" rel="noreferrer noopener">Google Scholar</a>   
+            <a href={'https://doi.org/' + row.doi} target="_blank" rel="noreferrer noopener">DOI</a>
+        </>,
+        width: '250px',
     },
     { name: 
         'Entities', selector: row => row.entities,
         wrap: true,
-        hide:'sm'
     }
 ];
 const conditionalRowStyles = [
@@ -51,6 +56,12 @@ const conditionalRowStyles = [
         },
     },
 ];
+
+function gsLink(title) {
+    const baseUrl = 'https://scholar.google.com/scholar?q=';
+    const formattedTitle = encodeURIComponent(title);
+    return `${baseUrl}${formattedTitle}`;
+}
 
 function ArticleDisplay({ data }) {
     const [resetPagination, setResetPagination] = useState(false);
@@ -78,10 +89,6 @@ function ArticleDisplay({ data }) {
 
     const ExpandableComponent = ({ data }) => (
         <div style={{ padding: '1rem', backgroundColor: data.index % 2 === 0 ? '#ffffff' : '#f2f2f2' }}>
-            <div>
-                <strong>Doi:</strong>
-                <p>{data.doi}</p>
-            </div>
             <div>
                 <strong>Abstract:</strong>
                 <p>{data.abstract}</p>
