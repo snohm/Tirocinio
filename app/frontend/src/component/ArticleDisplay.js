@@ -16,6 +16,11 @@ const customStyles = {
             fontFamily: 'Arial, sans-serif'
         },
     },
+    rows: {
+        highlightOnHoverStyle: {
+            backgroundColor: '#d4f2ff',
+        }
+    }
 };
 const columns = [
     { name: 'Title', 
@@ -32,6 +37,20 @@ const columns = [
         hide:'sm'
     }
 ];
+const conditionalRowStyles = [
+    {
+        when: row => row.index % 2 === 0,
+        style: {
+            backgroundColor: '#ffffff',
+        },
+    },
+    {
+        when: row => row.index % 2 !== 0,
+        style: {
+            backgroundColor: '#f2f2f2',
+        },
+    },
+];
 
 function ArticleDisplay({ data }) {
     const [resetPagination, setResetPagination] = useState(false);
@@ -43,11 +62,12 @@ function ArticleDisplay({ data }) {
         return;
     }
     const { display_order, art_info, art2ent } = data;
-    const rows = display_order.map(id => {
+    const rows = display_order.map((id, idx) => {
         const info = art_info[id];
         const ents = art2ent[id] || [];
         return {
             id,
+            index: idx + 1,
             title: info.title,
             doi: info.doi,
             url: info.url,
@@ -57,7 +77,7 @@ function ArticleDisplay({ data }) {
     });
 
     const ExpandableComponent = ({ data }) => (
-        <div style={{ padding: '1rem', background: '#f9f9f9' }}>
+        <div style={{ padding: '1rem', backgroundColor: data.index % 2 === 0 ? '#ffffff' : '#f2f2f2' }}>
             <div>
                 <strong>Doi:</strong>
                 <p>{data.doi}</p>
@@ -78,9 +98,9 @@ function ArticleDisplay({ data }) {
             expandableRows
             expandableRowsComponent={ExpandableComponent}
             highlightOnHover
-            striped
             expandOnRowClicked
             paginationResetDefaultPage={resetPagination}
+            conditionalRowStyles={conditionalRowStyles}
         />
     );
 }
