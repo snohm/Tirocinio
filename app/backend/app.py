@@ -35,5 +35,14 @@ def index():
     cursor.close()
     return jsonify({"display_order": list(art2ent.keys()),"art2ent": art2ent, "art_info": art_info}), 200
 
+@app.get("/api/art/<art_id>/related_ent")
+def related_ent(art_id):
+    conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
+    cursor.execute("SELECT e.name FROM mapping m JOIN entities e ON e.id = m.id_entities WHERE m.id_articles = %s", (art_id,))
+    ent = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    return jsonify([e[0] for e in ent]), 200
+
 if __name__ == "__main__":
     app.run(debug=True)
