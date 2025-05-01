@@ -62,33 +62,54 @@ function gsLink(title) {
     const formattedTitle = encodeURIComponent(title);
     return `${baseUrl}${formattedTitle}`;
 }
+async function related_ent(art_id) {
+    try {
+        const response = await fetch(`http://localhost:5000/api/art/${art_id}/related_ent`);
+        const rel_ent = await response.json();
+        return rel_ent.join(', ');
+    } catch (err) {
+        console.error('Error fetching data:', err);
+        return '';
+    }
+}
 
 function ArticleDisplay({ data }) {
+    console.log('ArticleDisplay:');
     const [resetPagination, setResetPagination] = useState(false);
+    const [rows, setRows] = useState([]);
     useEffect(() => {
+        if (Object.keys(data).length === 0) return;
+    
+        const { display_order, art_info, art2ent } = data;
+        const generateRows = async () => {
+            const newRows = await Promise.all(display_order.map(async (id, idx) => {
+                const info = art_info[id];
+                const ents = art2ent[id];
+                return {
+                    id,
+                    index: idx + 1,
+                    title: info.title,
+                    doi: info.doi,
+                    url: info.url,
+                    abstract: info.abstract,
+                    entities: ents.join(', '),
+                    rel_ent: await related_ent(id)
+                };
+            }));
+            setRows(newRows);
+        };
+    
+        generateRows();
         setResetPagination(prev => !prev);
     }, [data]);
-
-    if (Object.keys(data).length === 0) {
-        return;
-    }
-    const { display_order, art_info, art2ent } = data;
-    const rows = display_order.map((id, idx) => {
-        const info = art_info[id];
-        const ents = art2ent[id] || [];
-        return {
-            id,
-            index: idx + 1,
-            title: info.title,
-            doi: info.doi,
-            url: info.url,
-            abstract: info.abstract,
-            entities: ents.join(', ')
-        };
-    });
+    
 
     const ExpandableComponent = ({ data }) => (
         <div style={{ padding: '1rem', backgroundColor: data.index % 2 === 0 ? '#ffffff' : '#f2f2f2' }}>
+            <div>
+                <strong>Related entities:</strong>
+                <p>{data.rel_ent}</p>
+            </div>
             <div>
                 <strong>Abstract:</strong>
                 <p>{data.abstract}</p>
