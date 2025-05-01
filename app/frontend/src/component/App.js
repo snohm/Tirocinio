@@ -5,13 +5,24 @@ import ArticleDisplay from './ArticleDisplay';
 function App() {
   const [searchItems, setSearchItems] = useState([]);
   const [results, setResults] = useState({});
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
+    setResults({});
     const query = searchItems.join('&');
-    fetch(`http://localhost:5000/api/art?${query}`)
-      .then((res) => res.json())
-      .then((data) => setResults(data))
-      .catch((err) => console.error('Error fetching data:', err)); 
+    const getArt = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/art?${query}`);
+        const data = await response.json();
+        setResults(data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching data:', err);
+        setLoading(false);
+      }
+    };
+    getArt();
     }, [searchItems]);
   
   return (
@@ -23,7 +34,7 @@ function App() {
         </div>
       </div>
       <div style={{ width: '90%', alignItems: 'center', margin: 'auto' }}>
-        <ArticleDisplay data={results} />
+        <ArticleDisplay data={results} loading={loading} />
       </div>
     </>
   );

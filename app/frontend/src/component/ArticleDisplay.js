@@ -73,10 +73,11 @@ async function related_ent(art_id) {
     }
 }
 
-function ArticleDisplay({ data }) {
+function ArticleDisplay({ data, loading }) {
     console.log('ArticleDisplay:');
     const [resetPagination, setResetPagination] = useState(false);
     const [rows, setRows] = useState([]);
+
     useEffect(() => {
         if (Object.keys(data).length === 0) return;
     
@@ -154,6 +155,7 @@ function ArticleDisplay({ data }) {
             expandOnRowClicked
             paginationResetDefaultPage={resetPagination}
             conditionalRowStyles={conditionalRowStyles}
+            progressPending={loading}
         />
     );
 }
