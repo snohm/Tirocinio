@@ -2,66 +2,8 @@ import React from 'react';
 import DataTable from 'react-data-table-component';
 import { useState, useEffect } from 'react';
 import './css/table.css';
+import { customStyles, columns, conditionalRowStyles } from './customTable.js';
 
-const customStyles = {
-    headCells: {
-        style: {
-            fontSize: '16px',
-            fontWeight: 'bold',
-            fontFamily: 'Arial, sans-serif'
-        },
-    },
-    cells: {
-        style: {
-            fontSize: '14px',
-            fontFamily: 'Arial, sans-serif'
-        },
-    },
-    rows: {
-        highlightOnHoverStyle: {
-            backgroundColor: '#d4f2ff',
-        }
-    }
-};
-const columns = [
-    { name: 'Title', 
-        selector: row => row.title,
-        wrap: true 
-    },
-    { name: 'Links',
-        cell: row => 
-        <>
-            <a href={row.url} target="_blank" rel="noreferrer noopener">Scopus</a>  
-            <a href={gsLink(row.title)} target="_blank" rel="noreferrer noopener">Google Scholar</a>   
-            <a href={'https://doi.org/' + row.doi} target="_blank" rel="noreferrer noopener">DOI</a>
-        </>,
-        width: '250px',
-    },
-    { name: 
-        'Entities', selector: row => row.entities,
-        wrap: true,
-    }
-];
-const conditionalRowStyles = [
-    {
-        when: row => row.index % 2 === 0,
-        style: {
-            backgroundColor: '#ffffff',
-        },
-    },
-    {
-        when: row => row.index % 2 !== 0,
-        style: {
-            backgroundColor: '#f2f2f2',
-        },
-    },
-];
-
-function gsLink(title) {
-    const baseUrl = 'https://scholar.google.com/scholar?q=';
-    const formattedTitle = encodeURIComponent(title);
-    return `${baseUrl}${formattedTitle}`;
-}
 async function related_ent(art_id) {
     try {
         const response = await fetch(`http://localhost:5000/api/art/${art_id}/related_ent`);
@@ -74,7 +16,6 @@ async function related_ent(art_id) {
 }
 
 function ArticleDisplay({ data, loading }) {
-    console.log('ArticleDisplay:');
     const [resetPagination, setResetPagination] = useState(false);
     const [rows, setRows] = useState([]);
 
