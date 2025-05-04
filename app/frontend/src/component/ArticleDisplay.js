@@ -20,7 +20,10 @@ function ArticleDisplay({ data, loading }) {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        if (Object.keys(data).length === 0) return;
+        if (Object.keys(data).length === 0) {
+            setRows([]);
+            return;
+        }
     
         const { display_order, art_info, art2ent } = data;
         const generateRows = async () => {
@@ -97,6 +100,7 @@ function ArticleDisplay({ data, loading }) {
             paginationResetDefaultPage={resetPagination}
             conditionalRowStyles={conditionalRowStyles}
             progressPending={loading}
+            progressComponent={<div className='loader'></div>}
         />
     );
 }
