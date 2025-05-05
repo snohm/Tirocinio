@@ -79,7 +79,7 @@ function ArticleDisplay({ data, loading, addToSearch }) {
                     <p>
                     {loading ? "Loading..." : 
                         relatedEntities.map((ent, index) => {
-                            return <span className='clickable' onClick={() => addToSearch(prev => [...prev, ent])} key={index}>{ent}{index < relatedEntities.length - 1 ? ', ' : ''}</span>
+                            return <span className='clickable' onClick={() =>addToSearch(prev => prev.includes(ent)? prev : [...prev, ent])} key={index}>{ent}{index < relatedEntities.length - 1 ? ', ' : ''}</span>
                         })
                     }
                     </p>
