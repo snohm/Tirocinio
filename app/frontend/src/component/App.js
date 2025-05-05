@@ -30,11 +30,11 @@ function App() {
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
         <h2>Select keywords</h2>
         <div style={{ width: '50%', alignItems: 'center', margin: 'auto' }}>
-          <AutocompleteSelect onSelectionChange={setSearchItems} />
+          <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
         </div>
       </div>
       <div style={{ width: '90%', alignItems: 'center', margin: 'auto' }}>
-        <ArticleDisplay data={results} loading={loading} />
+        <ArticleDisplay data={results} loading={loading} addToSearch={setSearchItems} />
       </div>
     </>
   );

@@ -7,15 +7,14 @@ import { customStyles, columns, conditionalRowStyles } from './customTable.js';
 async function related_ent(art_id) {
     try {
         const response = await fetch(`http://localhost:5000/api/art/${art_id}/related_ent`);
-        const rel_ent = await response.json();
-        return rel_ent.join(', ');
+        return await response.json();
     } catch (err) {
         console.error('Error fetching data:', err);
         return '';
     }
 }
 
-function ArticleDisplay({ data, loading }) {
+function ArticleDisplay({ data, loading, addToSearch }) {
     const [resetPagination, setResetPagination] = useState(false);
     const [rows, setRows] = useState([]);
 
@@ -77,7 +76,13 @@ function ArticleDisplay({ data, loading }) {
             <div style={{ padding: '1rem', backgroundColor: data.index % 2 === 0 ? '#ffffff' : '#f2f2f2' }}>
                 <div>
                     <strong>Related entities:</strong>
-                    <p>{loading ? "Loading..." : relatedEntities}</p>
+                    <p>
+                    {loading ? "Loading..." : 
+                        relatedEntities.map((ent, index) => {
+                            return <span className='clickable' onClick={() => addToSearch(prev => [...prev, ent])} key={index}>{ent}{index < relatedEntities.length - 1 ? ', ' : ''}</span>
+                        })
+                    }
+                    </p>
                 </div>
                 <div>
                     <strong>Abstract:</strong>

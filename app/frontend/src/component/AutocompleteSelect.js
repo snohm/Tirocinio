@@ -17,9 +17,10 @@ async function loadOptions(inputValue){
     }
 };
 
-function AutocompleteSelect({ onSelectionChange }) {
-  function handleChange (selectedOptions) {
-    const opt = selectedOptions ? selectedOptions.map((o) => o.value) : [];
+function AutocompleteSelect({ onSelectionChange, selectedItems }) {
+
+  const handleChange = (selectedOptions) => {
+    const opt = selectedOptions.map((o) => o.value);
     onSelectionChange(opt);
   };
 
@@ -30,6 +31,7 @@ function AutocompleteSelect({ onSelectionChange }) {
       defaultOptions={[]}
       loadOptions={loadOptions}
       onChange={handleChange}
+      value={selectedItems.map((item) => ({ label: item, value: item }))}
       placeholder="Search and select..."
     />
   );
