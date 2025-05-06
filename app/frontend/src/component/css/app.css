@@ -1,0 +1,23 @@
+.select {
+    width: 50%;
+    align-items: center;
+    margin: auto
+}
+
+.table {
+    width: 90%;
+    align-items: center;
+    margin: auto
+}
+
+@media only screen and (max-width: 1000px) {
+    .table {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .select {
+        width: 100%;
+    }
+}

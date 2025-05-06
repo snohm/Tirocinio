@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import AutocompleteSelect from './AutocompleteSelect';
 import ArticleDisplay from './ArticleDisplay';
+import './css/app.css';
 
 function App() {
   const [searchItems, setSearchItems] = useState([]);
@@ -29,11 +30,11 @@ function App() {
     <>
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
         <h2>Select keywords</h2>
-        <div style={{ width: '50%', alignItems: 'center', margin: 'auto' }}>
+        <div className='select'>
           <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
         </div>
       </div>
-      <div style={{ width: '90%', alignItems: 'center', margin: 'auto' }}>
+      <div className='table'>
         <ArticleDisplay data={results} loading={loading} addToSearch={setSearchItems} />
       </div>
     </>
