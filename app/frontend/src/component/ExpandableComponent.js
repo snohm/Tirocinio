@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { gsLink } from './customTable';
 
 async function related_ent(art_id) {
     try {
@@ -38,6 +39,16 @@ function ExpandableComponent({ data, addToSearch }) {
 
     return (
         <div style={{ padding: '1rem', backgroundColor: data.index % 2 === 0 ? '#ffffff' : '#f2f2f2' }}>
+            {window.innerWidth > 700 ? '':
+            <div>
+                <strong>Links:</strong>
+                <ul style={{paddingLeft: '20px'}}>
+                    <li><a href={data.url} target="_blank" rel="noreferrer noopener">Scopus</a>  </li>
+                    <li><a href={gsLink(data.title)} target="_blank" rel="noreferrer noopener">Google Scholar</a>   </li>
+                    <li><a href={'https://doi.org/' + data.doi} target="_blank" rel="noreferrer noopener">DOI</a></li>
+                </ul>
+            </div>
+            }
             <div>
                 <strong>Related entities:</strong>
                 <p>
