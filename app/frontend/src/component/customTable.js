@@ -1,4 +1,4 @@
-function gsLink(title) {
+export function gsLink(title) {
     const baseUrl = 'https://scholar.google.com/scholar?q=';
     const formattedTitle = encodeURIComponent(title);
     return `${baseUrl}${formattedTitle}`;
