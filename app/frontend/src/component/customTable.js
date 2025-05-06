@@ -37,10 +37,12 @@ export const columns = [
             <a href={'https://doi.org/' + row.doi} target="_blank" rel="noreferrer noopener">DOI</a>
         </>,
         width: '250px',
+        hide: 700,
     },
     { name: 
         'Entities', selector: row => row.entities,
         wrap: true,
+        hide: 900,
     }
 ];
 export const conditionalRowStyles = [
