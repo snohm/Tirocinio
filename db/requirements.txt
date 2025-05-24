@@ -1,0 +1,6 @@
+colorama==0.4.6
+dotenv==0.9.9
+psycopg2==2.9.10
+python-dotenv==1.1.0
+rispy==0.10.0
+tqdm==4.67.1
