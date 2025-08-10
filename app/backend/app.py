@@ -3,7 +3,7 @@ from flask_cors import CORS
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
-from utils.backend import get_art_by_ent, get_art_info
+from functions.backend import get_art_by_ent, get_art_info
 from utils.dbConn import dbConn
 
 app = Flask(__name__)
@@ -20,8 +20,21 @@ def ent():
     cursor.close()
     return jsonify([e[0] for e in ent]), 200
 
+@app.get("/v2/api/art")
+def art_v2():
+    conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
+    param = list(request.args.to_dict().keys())
+    try:
+        art2ent = get_art_by_ent(cursor, param)
+    except ValueError as e:
+        return jsonify(str(e)), 404
+    art_info = get_art_info(cursor, list(art2ent.keys()))
+    conn.close()
+    cursor.close()
+    return jsonify({"display_order": list(art2ent.keys()),"art2ent": art2ent, "art_info": art_info}), 200
+
 @app.get("/api/art")
-def index():
+def art():
     conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
     param = list(request.args.to_dict().keys())
     try:
