@@ -33,6 +33,20 @@ def art_v2():
     cursor.close()
     return jsonify({"display_order": list(art2ent.keys()),"art2ent": art2ent, "art_info": art_info}), 200
 
+@app.get("/api/derivated_art")
+def der_art():
+    conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
+    param = list(request.args.to_dict().keys())
+    try:
+        art2ent = get_art_by_ent(cursor, param)
+    except ValueError as e:
+        return jsonify(str(e)), 404
+    der_art = get_art_by_ent(cursor, param, keys=list(art2ent.keys()))
+    art_info = get_art_info(cursor, list(der_art.keys()))
+    conn.close()
+    cursor.close()
+    return jsonify({"display_order": list(der_art.keys()),"art2ent": der_art, "art_info": art_info}), 200
+
 @app.get("/api/art")
 def art():
     conn, cursor = dbConn('../../dbConn.env', search_path="agroann")
