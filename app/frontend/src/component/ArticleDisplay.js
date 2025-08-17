@@ -3,38 +3,20 @@ import { useState, useEffect } from 'react';
 import './css/table.css';
 import { customStyles, columns, conditionalRowStyles } from './customTable';
 import ExpandableComponent from './ExpandableComponent';
+import useFetch from '../hooks/useFetch';
 
-function ArticleDisplay({addToSearch, searchItems }) {
+export default function ArticleDisplay({ addToSearch, searchItems }) {
     const [resetPagination, setResetPagination] = useState(false);
     const [rows, setRows] = useState([]);
-    const [data, setData] = useState({});
-    const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    setData({});
-    const query = searchItems.join('&');
-    const getArt = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/v2/api/art?${query}`);
-        const art = await response.json();
-        setData(art);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching data:', err);
-        setLoading(false);
-      }
-    };
-    getArt();
-    }, [searchItems]);
+    const { data: art, loading } = useFetch(`/v2/api/art?${searchItems.join('&')}`);
 
     useEffect(() => {
-        if (Object.keys(data).length === 0) {
+        if (Object.keys(art).length === 0) {
             setRows([]);
             return;
         }
-    
-        const { display_order, art_info, art2ent } = data;
+
+        const { display_order, art_info, art2ent } = art;
         const generateRows = async () => {
             const newRows = display_order.map((id, idx) => {
                 const info = art_info[id];
@@ -51,11 +33,11 @@ function ArticleDisplay({addToSearch, searchItems }) {
             });
             setRows(newRows);
         };
-        
+
         generateRows();
         setResetPagination(prev => !prev);
-    }, [data]);
-    
+    }, [art]);
+
     return (
         <DataTable
             columns={columns}
@@ -75,5 +57,3 @@ function ArticleDisplay({addToSearch, searchItems }) {
         />
     );
 }
-
-export default ArticleDisplay;
