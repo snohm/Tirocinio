@@ -1,9 +1,9 @@
 import {useState} from 'react';
 import AutocompleteSelect from './AutocompleteSelect';
 import ArticleDisplay from './ArticleDisplay';
-import './css/app.css';
+import '../styles/app.css';
 
-function App() {
+export default function App() {
   const [searchItems, setSearchItems] = useState([]);
   
   return (
@@ -20,5 +20,3 @@ function App() {
     </>
   );
 }
-
-export default App;

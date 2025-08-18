@@ -1,6 +1,6 @@
 import DataTable from 'react-data-table-component';
 import { useState, useEffect } from 'react';
-import './css/table.css';
+import '../styles/table.css';
 import { customStyles, columns, conditionalRowStyles } from './customTable';
 import ExpandableComponent from './ExpandableComponent';
 import useFetch from '../hooks/useFetch';
