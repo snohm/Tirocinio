@@ -4,64 +4,24 @@ import './css/table.css';
 import { customStyles, columns, conditionalRowStyles } from './customTable';
 import ExpandableComponent from './ExpandableComponent';
 import useFetch from '../hooks/useFetch';
+import useCreateRows from '../hooks/useCreateRows';
 
 export default function ArticleDisplay({ addToSearch, searchItems }) {
     const [resetPagination, setResetPagination] = useState(false);
-    const [rows, setRows] = useState([]);
     const { data: art, loading } = useFetch(`/v2/api/art?${searchItems.join('&')}`);
     const { data: der_art } = useFetch(`/api/derivated_art?${searchItems.join('&')}`);
 
+    const rows = useCreateRows(art, 0);
+    const derRows = useCreateRows(der_art, rows.length);
+
     useEffect(() => {
-        if (Object.keys(art).length === 0) {
-            setRows([]);
-            return;
-        }
-
-        const { display_order, art_info, art2ent } = art;
-        const newRows = display_order.map((id, idx) => {
-            const info = art_info[id];
-            const ents = art2ent[id];
-            return {
-                id,
-                index: idx + 1,
-                title: info.title,
-                doi: info.doi,
-                url: info.url,
-                abstract: info.abstract,
-                entities: ents.join(', ')
-            };
-        });
-
-        setRows(newRows);
         setResetPagination(prev => !prev);
-    }, [art]);
-
-    useEffect(() => {
-        if (Object.keys(der_art).length === 0) {
-            return;
-        }
-
-        const { display_order, art_info, art2ent } = der_art;
-        const newRows = display_order.map((id, idx) => {
-            const info = art_info[id];
-            const ents = art2ent[id];
-            return {
-                id,
-                index: rows.length + idx + 1,
-                title: info.title,
-                doi: info.doi,
-                url: info.url,
-                abstract: info.abstract,
-                entities: ents.join(', ')
-            };
-        });
-        setRows(prevRows => [...prevRows, ...newRows]);
-    }, [der_art]);
+    }, [rows]);
 
     return (
         <DataTable
             columns={columns}
-            data={rows}
+            data={[...rows, ...derRows]}
             customStyles={customStyles}
             pagination
             expandableRows
