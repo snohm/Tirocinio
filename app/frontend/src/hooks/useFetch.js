@@ -8,18 +8,18 @@ export default function useFetch(path) {
         const url = `http://localhost:5000${path}`;
         setData({});
         setLoading(true);
-        const getArt = async () => {
+        const getData = async () => {
             try {
                 const response = await fetch(url);
-                const art = await response.json();
-                setData(art);
+                const res = await response.json();
+                setData(res);
             } catch (err) {
                 console.error('Error fetching data:', err);
             } finally {
                 setLoading(false);
             }
         };
-        getArt();
+        getData();
     }, [path]);
     return { data, loading };
 }
