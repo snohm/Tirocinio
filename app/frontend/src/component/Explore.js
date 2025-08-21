@@ -1,15 +1,15 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import AutocompleteSelect from './AutocompleteSelect';
 import ArticleDisplay from './ArticleDisplay';
-import '../styles/app.css';
+import '../styles/explore.css';
 
-export default function App() {
+export default function Explore() {
   const [searchItems, setSearchItems] = useState([]);
-  
+
   return (
     <>
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-        <h2>Select keywords</h2>
+        <h2>Agricultural Papers Finder</h2>
         <div className='select'>
           <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
         </div>
