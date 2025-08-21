@@ -1,8 +1,17 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import AutocompleteSelect from './AutocompleteSelect';
 import ArticleDisplay from './ArticleDisplay';
 import '../styles/explore.css';
 
 export default function Explore({ setSearchItems, searchItems }) {
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (searchItems.length === 0) {
+      navigate('/');
+    }
+  }, [searchItems, navigate]);
+
   return (
     <>
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
