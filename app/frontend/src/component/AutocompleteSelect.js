@@ -1,27 +1,29 @@
-import React from 'react';
 import AsyncSelect from 'react-select/async';
+import { useNavigate } from 'react-router-dom';
 
-async function loadOptions(inputValue){
-    if (inputValue.length < 2) return [];
+async function loadOptions(inputValue) {
+  if (inputValue.length < 2) return [];
 
-    try {
-      const res = await fetch(`http://localhost:5000/api/ent?ent_name=${encodeURIComponent(inputValue)}`);
-      const data = await res.json();
-      return data.map((item) => ({
-        label: item,
-        value: item
-      }));
-    } catch (err) {
-      console.error('Err fetching entities:', err);
-      return [];
-    }
+  try {
+    const res = await fetch(`http://localhost:5000/api/ent?ent_name=${encodeURIComponent(inputValue)}`);
+    const data = await res.json();
+    return data.map((item) => ({
+      label: item,
+      value: item
+    }));
+  } catch (err) {
+    console.error('Err fetching entities:', err);
+    return [];
+  }
 };
 
-function AutocompleteSelect({ onSelectionChange, selectedItems }) {
+export default function AutocompleteSelect({ onSelectionChange, selectedItems }) {
+  const navigate = useNavigate();
 
   const handleChange = (selectedOptions) => {
     const opt = selectedOptions.map((o) => o.value);
     onSelectionChange(opt);
+    navigate('/explore');
   };
 
   return (
@@ -37,4 +39,3 @@ function AutocompleteSelect({ onSelectionChange, selectedItems }) {
   );
 };
 
-export default AutocompleteSelect;
