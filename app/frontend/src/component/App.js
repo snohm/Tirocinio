@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Explore from './Explore';
 import AutocompleteSelect from './AutocompleteSelect';
+import '../styles/app.css';
+import '../styles/explore.css';
 
 export default function App() {
   const [searchItems, setSearchItems] = useState([]);
@@ -10,7 +12,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={
-          <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
+          <div className='center'>
+            <p className='title'>Agricultural Papers Finder</p>
+            <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
+          </div>
         } />
         <Route path="/explore" element={
           <Explore setSearchItems={setSearchItems} searchItems={searchItems} />
