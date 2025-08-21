@@ -1,11 +1,8 @@
-import { useState } from 'react';
 import AutocompleteSelect from './AutocompleteSelect';
 import ArticleDisplay from './ArticleDisplay';
 import '../styles/explore.css';
 
-export default function Explore() {
-  const [searchItems, setSearchItems] = useState([]);
-
+export default function Explore({ setSearchItems, searchItems }) {
   return (
     <>
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
