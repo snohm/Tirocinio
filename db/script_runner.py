@@ -3,6 +3,7 @@ import os
 import sys
 
 scripts = [
+    'createSchema.py',
     'typeof_relation.py',
     'sameas_relation.py',
     'articles.py',
