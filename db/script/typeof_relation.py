@@ -3,10 +3,11 @@ import os
 import sys
 from tqdm import tqdm
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../utils')))
 from utils.dbConn import dbConn
 
-conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
+conn, cursor = dbConn(dotenv_path="../dbconn.env", search_path="agroann")
 
 for file in os.listdir('data/entities/type_of'):
     tqdm.write(f"\tProcessing: {file}")

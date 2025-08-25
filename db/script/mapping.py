@@ -3,10 +3,11 @@ import os
 import sys
 from tqdm import tqdm
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../utils')))
 from utils.dbConn import dbConn
 
-conn, cursor = dbConn(dotenv_path="dbconn.env", search_path="agroann")
+conn, cursor = dbConn(dotenv_path="../dbconn.env", search_path="agroann")
 
 with open('data/entities/mapping/ent2art.json', 'r', encoding='utf-8') as f:
     entries = json.load(f)
