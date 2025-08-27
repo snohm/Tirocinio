@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-WORKDIR /db
+WORKDIR /prj/db
 
 RUN apt-get update && apt-get install -y \
     libpq-dev \
