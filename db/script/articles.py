@@ -12,7 +12,7 @@ conn, cursor = dbConn(dotenv_path="../dbconn.env", search_path="agroann")
 for file in os.listdir('data/articles'):
     tqdm.write(f"\tProcessing: {file}")
     file = os.path.join('data/articles', file)
-    with open(file, 'r', encoding='utf-8') as f:
+    with open(file, 'r', encoding='utf-8-sig') as f:
         entries = rispy.load(f)
         for art in tqdm(entries):
             if 'abstract' in art:
