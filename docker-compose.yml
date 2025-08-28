@@ -1,0 +1,47 @@
+name: agriPapers
+services:
+  db:
+    image: postgres:15
+    restart: always
+    env_file:
+      - db_setup.env
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  db-init:
+    build:
+      context: ./db
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./utils:/prj/utils
+      - ./db_conn.env:/prj/dbconn.env
+    entrypoint: [ "sh", "-c", "if [ ! -f /var/lib/postgresql/data/.db_initialized ]; then python script_runner.py && touch /var/lib/postgresql/data/.db_initialized; else echo 'DB already initialized'; fi" ]
+
+  backend:
+    build:
+      context: ./app/backend
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    volumes:
+     - ./utils:/prj/utils
+     - ./db_conn.env:/prj/dbConn.env
+
+  frontend:
+    build:
+      context: ./app/frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    ports:
+      - "3000:3000"
+
+volumes:
+  db_data:
