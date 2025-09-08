@@ -30,7 +30,6 @@ services:
     ports:
       - "5000:5000"
     volumes:
-     - ./utils:/prj/utils
      - ./db_conn.env:/prj/dbConn.env
 
   frontend:
