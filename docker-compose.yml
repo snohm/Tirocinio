@@ -18,8 +18,7 @@ services:
       - db
     volumes:
       - db_data:/var/lib/postgresql/data
-      - ./utils:/prj/utils
-      - ./db_conn.env:/prj/dbconn.env
+      - ./db_conn.env:/prj/dbConn.env
     entrypoint: [ "sh", "-c", "if [ ! -f /var/lib/postgresql/data/.db_initialized ]; then python script_runner.py && touch /var/lib/postgresql/data/.db_initialized; else echo 'DB already initialized'; fi" ]
 
   backend:
