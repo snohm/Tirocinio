@@ -3,7 +3,7 @@ import psycopg2
 import os
 from dotenv import load_dotenv
 
-def dbConn(dotenv_path="", search_path="public"):
+def dbConn(dotenv_path=""):
    load_dotenv(dotenv_path=dotenv_path)
    for i in range(5):
       try:
@@ -14,9 +14,7 @@ def dbConn(dotenv_path="", search_path="public"):
             user=os.getenv('DB_USER'),
             password=os.getenv('DB_PASSWORD')
          )
-         cursor = conn.cursor()
-         cursor.execute(f"SET search_path TO {search_path};")
-         return conn, cursor
+         return conn
       except psycopg2.OperationalError as e:
          print(f"Attempt {i+1}/5: Unable to connect to the database. Error: {e}")
          time.sleep(3)
