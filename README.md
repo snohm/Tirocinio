@@ -1,4 +1,4 @@
-## Agricultural Papers Finder
+## AgriPapers
 This project provides a keyword-based search engine for agricultural science papers. Articles are ranked by relevance, ensuring that the most closely matching results appear first.
 
 ### How to install and run
