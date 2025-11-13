@@ -13,7 +13,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={
           <div className='center'>
-            <p className='title'>Agricultural Papers Finder</p>
+            <p className='title'>AgriPapers</p>
             <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
           </div>
         } />

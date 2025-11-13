@@ -15,7 +15,7 @@ export default function Explore({ setSearchItems, searchItems }) {
   return (
     <>
       <div style={{ textAlign: 'center', marginBottom: '50px' }}>
-        <h2>Agricultural Papers Finder</h2>
+        <h2>AgriPapers</h2>
         <div className='select'>
           <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
         </div>
