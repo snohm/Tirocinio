@@ -14,7 +14,7 @@ export default function Explore({ setSearchItems, searchItems }) {
 
   return (
     <>
-      <div style={{ textAlign: 'center', marginBottom: '50px' }}>
+      <div style={{ textAlign: 'center', backgroundColor: '#f2f2f2', margin: '-20px -10px 50px -10px', padding: '15px 0 20px 0' }}>
         <h2>AgriPapers</h2>
         <div className='select'>
           <AutocompleteSelect onSelectionChange={setSearchItems} selectedItems={searchItems} />
