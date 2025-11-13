@@ -32,9 +32,9 @@ export const columns = [
     { name: 'Links',
         cell: row => 
         <>
-            <a href={row.url} target="_blank" rel="noreferrer noopener">Scopus</a>  
-            <a href={gsLink(row.title)} target="_blank" rel="noreferrer noopener">Google Scholar</a>   
-            <a href={'https://doi.org/' + row.doi} target="_blank" rel="noreferrer noopener">DOI</a>
+            { row.url && <a href={row.url} target="_blank" rel="noreferrer noopener">Scopus</a> }
+            { row.title && <a href={gsLink(row.title)} target="_blank" rel="noreferrer noopener">Google Scholar</a> }
+            { row.doi && <a href={'https://doi.org/' + row.doi} target="_blank" rel="noreferrer noopener">DOI</a> }  
         </>,
         width: '250px',
         hide: 700,
