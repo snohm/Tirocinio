@@ -9,7 +9,7 @@ import useCreateRows from '../hooks/useCreateRows';
 export default function ArticleDisplay({ addToSearch, searchItems }) {
     const [resetPagination, setResetPagination] = useState(false);
     const { data: art, loading } = useFetch(`/api/art?${searchItems.join('&')}`);
-    const { data: der_art } = useFetch(`/api/derivated_art?${searchItems.join('&')}`);
+    const { data: der_art } = useFetch(`/api/art?related=true&${searchItems.join('&')}`);
 
     const rows = useCreateRows(art, 0);
     const derRows = useCreateRows(der_art, rows.length);

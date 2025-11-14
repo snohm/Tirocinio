@@ -27,31 +27,20 @@ def art_v2():
     conn = pool.getconn()
     cursor = conn.cursor()
     cursor.execute(f'SET search_path TO {search_path}')
+    related = request.args.get('related', default=False, type=bool)
     param = list(request.args.to_dict().keys())
+    if related:
+        param.remove('related')
     try:
         art2ent = get_art_by_ent(cursor, param)
     except ValueError as e:
         return jsonify(str(e)), 404
+    if related:
+        art2ent = get_art_by_ent(cursor, param, keys=list(art2ent.keys()))
     art_info = get_art_info(cursor, list(art2ent.keys()))
     cursor.close()
     pool.putconn(conn)
     return jsonify({"display_order": list(art2ent.keys()),"art2ent": art2ent, "art_info": art_info}), 200
-
-@app.get("/api/derivated_art")
-def der_art():
-    conn = pool.getconn()
-    cursor = conn.cursor()
-    cursor.execute(f'SET search_path TO {search_path}')
-    param = list(request.args.to_dict().keys())
-    try:
-        art2ent = get_art_by_ent(cursor, param)
-    except ValueError as e:
-        return jsonify(str(e)), 404
-    der_art = get_art_by_ent(cursor, param, keys=list(art2ent.keys()))
-    art_info = get_art_info(cursor, list(der_art.keys()))
-    cursor.close()
-    pool.putconn(conn)
-    return jsonify({"display_order": list(der_art.keys()),"art2ent": der_art, "art_info": art_info}), 200
 
 @app.get("/api/art/<art_id>/related_ent")
 def related_ent(art_id):
