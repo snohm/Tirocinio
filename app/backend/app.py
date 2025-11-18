@@ -27,15 +27,16 @@ def art_v2():
     conn = pool.getconn()
     cursor = conn.cursor()
     cursor.execute(f'SET search_path TO {search_path}')
-    related = request.args.get('related', default=False, type=bool)
+    r = request.args.get('related', default=None, type=str)
+    related = None if r is None else True if r.lower() == 'true' else False
     param = list(request.args.to_dict().keys())
-    if related:
+    if related is not None:
         param.remove('related')
     try:
         art2ent = get_art_by_ent(cursor, param)
     except ValueError as e:
         return jsonify(str(e)), 404
-    if related:
+    if related is not None and related:
         art2ent = get_art_by_ent(cursor, param, keys=list(art2ent.keys()))
     art_info = get_art_info(cursor, list(art2ent.keys()))
     cursor.close()
